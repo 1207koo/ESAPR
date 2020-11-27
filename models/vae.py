@@ -1,5 +1,5 @@
 import torch.nn as nn
-from .heads import *
+from .transformer_models.heads import *
 
 
 class VAEModel(BaseModel):

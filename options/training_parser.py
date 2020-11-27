@@ -148,6 +148,9 @@ class TrainingParser:
 		parser.add_argument('--absolute_kernel_types', type=str, help="Absolute kernel types separated by'-'(e.g. d-c). p=Pos, d=Day, c=Con")
 		parser.add_argument('--relative_kernel_types', type=str, help="Relative kernel types separated by'-'(e.g. e-l). s=Sin, e=Exp, l=Log")
 
+		# VAE
+		parser.add_argument('--encode_len', type=int, help='Length of the result of encoder')
+
 		args = parser.parse_known_args(self.sys_argv)[0]
 		return vars(args)
 

@@ -154,7 +154,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		d = {}
 		d['data'] = data
 		d['candidates'] = candidates
-		d['c_label'] = c_label
+		d['c_label'] = c_labels
 		d['label'] = label
 
 		padding_len = self.max_len - len(seq)

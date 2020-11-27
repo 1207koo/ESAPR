@@ -40,8 +40,8 @@ class VAETrainDataset(data_utils.Dataset):
 		self.special_tokens = dataset['special_tokens']
 		self.num_users = len(dataset['umap'])
 		self.num_items = len(dataset['smap'])
-        global num_items
-        num_items = self.num_items
+		global num_items
+		num_items = self.num_items
 		self.rng = rng
 		self.train_ranges = train_ranges
 

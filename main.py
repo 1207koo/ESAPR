@@ -8,11 +8,11 @@ from typing import List
 
 
 def main(sys_argv: List[str] = None):
-    if sys_argv is None:
-        sys_argv = sys.argv[1:]
-    conf = parse_args(sys_argv)
-    args = DotMap(conf, _dynamic=False)
-    if args.meta == 'training':
-        training_main(args)
-    else:
-        raise ValueError
+	if sys_argv is None:
+		sys_argv = sys.argv[1:]
+	conf = parse_args(sys_argv)
+	args = DotMap(conf, _dynamic=False)
+	if args.meta == 'training':
+		training_main(args)
+	else:
+		raise ValueError

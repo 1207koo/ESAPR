@@ -182,9 +182,9 @@ In the result folder, you will find:
 │   └── recent_checkpoint.pth.final
 ├── status.txt
 └── tables
-    ├── test_log.csv
-    ├── train_log.csv
-    └── val_log.csv
+	├── test_log.csv
+	├── train_log.csv
+	└── val_log.csv
 ```
 
 Below are the descriptions for the contents of each file.

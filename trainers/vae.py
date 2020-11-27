@@ -1,6 +1,8 @@
 from .base import AbstractTrainer
 from .utils import recalls_and_ndcgs_for_ks
 
+import torch.nn as nn
+
 
 class VAETrainer(AbstractTrainer):
 	def __init__(self, args, model, train_loader, val_loader, test_loader, export_root):

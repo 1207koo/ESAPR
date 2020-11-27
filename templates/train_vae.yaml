@@ -52,7 +52,7 @@ saturation_wait_epochs: 20
 model_code: vae
 model_init_seed: 0
 model_init_range: 0.02
-max_len: 256
+max_len: 64
 encode_len: 256
 dropout: 0.2
 mask_prob: 0.2

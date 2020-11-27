@@ -10,7 +10,4 @@ MODELS = {c.code():c
 
 def model_factory(args, num_items = None):
 	model = MODELS[args.model_code]
-	if args.model_code == 'vae':
-		return model(args, num_items)
-	else:
-		return model(args)
+	return model(args)

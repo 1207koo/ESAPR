@@ -1,5 +1,6 @@
 from .base import AbstractTrainer
 from .utils import recalls_and_ndcgs_for_ks
+from utils import fix_random_seed_as
 
 import torch.nn as nn
 

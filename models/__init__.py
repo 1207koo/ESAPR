@@ -8,6 +8,9 @@ MODELS = {c.code():c
 		  if c.code() is not None}
 
 
-def model_factory(args):
+def model_factory(args, num_items = None):
 	model = MODELS[args.model_code]
-	return model(args)
+	if args.model_code == 'vae':
+		return model(args, num_items)
+	else:
+		return model(args)

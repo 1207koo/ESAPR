@@ -4,11 +4,11 @@ from models.base import BaseModel
 
 
 class VAEModel(BaseModel):
-	def __init__(self, args):
+	def __init__(self, args, num_items):
 		super().__init__(args)
 		self.output_info = args.output_info
 		self.max_len = args.max_len
-		self.num_items = len(dataset['smap'])
+		self.num_items = num_items
 		self.encode_len = args.encode_len
 		self.encoder = nn.Sequential(
 			nn.Flatten(),

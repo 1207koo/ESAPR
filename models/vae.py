@@ -1,5 +1,6 @@
 import torch.nn as nn
 from .transformer_models.heads import *
+from .transformer_models.embeddings import *
 from models.base import BaseModel
 
 
@@ -38,6 +39,7 @@ class VAEModel(BaseModel):
 			nn.Linear(1024, self.max_len * self.num_items)
 		)
 		self.init_weights()
+		self.token_embedding = TokenEmbedding(args)
 		if args.headtype == 'dot':
 			self.head = BertDotProductPredictionHead(args, self.token_embedding.emb)
 		elif args.headtype == 'linear':

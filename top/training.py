@@ -22,7 +22,7 @@ def train(args):
 	if communicator:
 		communicator.close()  # close station because it might lose connection during long training
 	train_loader, val_loader, test_loader = dataloader_factory(args)
-	model = model_factory(args, train_loader.num_items)
+	model = model_factory(args, train_loader._get_dataset('train').num_items)
 	trainer = trainer_factory(args, model, train_loader, val_loader, test_loader, local_export_root)
 	status_file = os.path.join(local_export_root, 'status.txt')
 	error_log_file = os.path.join(local_export_root, 'error_log.txt')

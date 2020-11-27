@@ -9,7 +9,7 @@ class VAEModel(BaseModel):
 		self.output_info = args.output_info
 		self.max_len = args.max_len
 		global num_items
-		self.num_items = num_items
+		self.num_items = args.num_items
 		print("Got num_items:",self.num_items)
 		self.encode_len = args.encode_len
 		self.encoder = nn.Sequential(

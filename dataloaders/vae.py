@@ -86,7 +86,7 @@ class VAETrainDataset(data_utils.Dataset):
 		seq = seq[beg:end]
 
 		label = torch.zeros(self.max_len)
-		label[-len(seq):] = seq
+		label[-len(seq):] = torch.LongTensor(seq)
 		labelv = label.view(-1, 1)
 
 		data = torch.zeros(self.max_len, self.num_items)
@@ -146,7 +146,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		c_labels = [1] * len(answer) + [0] * len(negs)
 
 		label = torch.zeros(self.max_len)
-		label[-len(seq):] = seq
+		label[-len(seq):] = torch.LongTensor(seq)
 		labelv = label.view(-1, 1)
 
 		data = torch.zeros(self.max_len, self.num_items)

@@ -60,12 +60,12 @@ class VAETrainer(AbstractTrainer):
 				best_epoch = epoch
 			elif (self.saturation_wait_epochs is not None) and\
 					(epoch - best_epoch >= self.saturation_wait_epochs):
-				if recover_len <= 1:
+				if self.recover_len <= 1:
 					stop_training = True  # stop training if val perf doesn't improve for saturation_wait_epochs
 				else:
 					best_metric = self.best_metric_at_best_epoch
 					best_epoch = self.best_epoch
-					recover_len /= 2
+					self.recover_len /= 2
 
 			if stop_training:
 				# load best model

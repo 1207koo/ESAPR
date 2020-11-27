@@ -30,7 +30,7 @@ class VAETrainer(AbstractTrainer):
 
 	def calculate_metrics(self, batch):
 		labels = batch['c_label']
-		scores = self.model(batch)['scores']  # B x C
+		scores = self.model(batch['data'])['scores']  # B x C
 		# scores = scores.gather(1, candidates)  # B x C
 
 		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)

@@ -14,13 +14,13 @@ class VAEModel(BaseModel):
 		self.encode_len = args.encode_len
 		self.encoder = nn.Sequential(
 			nn.Flatten(),
-			nn.Linear(self.max_len * self.num_items, 4096),
-			nn.BatchNorm1d(4096),
+			nn.Linear(self.max_len * self.num_items, 1024),
+			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(4096, 2048),
-			nn.BatchNorm1d(2048),
+			nn.Linear(1024, 1024),
+			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(2048, 1024),
+			nn.Linear(1024, 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(),
 			nn.Linear(1024, 2 * self.encode_len)
@@ -29,13 +29,13 @@ class VAEModel(BaseModel):
 			nn.Linear(self.encode_len, 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(1024, 2048),
-			nn.BatchNorm1d(2048),
+			nn.Linear(1024, 1024),
+			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(2048, 4096),
-			nn.BatchNorm1d(4096),
+			nn.Linear(1024, 1024),
+			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(4096, self.max_len * self.num_items)
+			nn.Linear(1024, self.max_len * self.num_items)
 		)
 		self.init_weights()
 		if args.headtype == 'dot':

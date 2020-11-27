@@ -25,7 +25,7 @@ class VAEDataloader(AbstractDataloader):
 
 	def _get_eval_dataset(self, mode):
 		positions = self.validation_targets if mode=='val' else self.test_targets
-		dataset = VAEEvalDataset(self.args, self.dataset, positions)
+		dataset = VAEEvalDataset(self.args, self.dataset, self.test_negative_samples, positions)
 		return dataset
 
 
@@ -117,7 +117,7 @@ class VAETrainDataset(data_utils.Dataset):
 
 
 class VAEEvalDataset(data_utils.Dataset):
-	def __init__(self, args, dataset, positions):
+	def __init__(self, args, dataset, negative_samples, positions):
 		self.user2dict = dataset['user2dict']
 		self.positions = positions
 		self.max_len = args.max_len

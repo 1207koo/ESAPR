@@ -16,3 +16,6 @@ def main(sys_argv: List[str] = None):
 		training_main(args)
 	else:
 		raise ValueError
+
+if __name__ == '__main__':
+    main()

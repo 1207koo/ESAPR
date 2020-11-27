@@ -9,13 +9,12 @@ class VAEModel(BaseModel):
 		super().__init__(args)
 		self.output_info = args.output_info
 		self.max_len = args.max_len
-		global num_items
 		self.num_items = args.num_items
 		print("Got num_items:",self.num_items)
 		self.encode_len = args.encode_len
 		self.encoder = nn.Sequential(
 			nn.Flatten(),
-			nn.Linear(self.max_len * self.num_items, 1024),
+			nn.Linear(self.max_len * (self.num_items + 1), 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(),
 			nn.Linear(1024, 1024),
@@ -36,7 +35,7 @@ class VAEModel(BaseModel):
 			nn.Linear(1024, 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(1024, self.max_len * self.num_items)
+			nn.Linear(1024, self.max_len * (self.num_items + 1))
 		)
 		self.init_weights()
 		self.token_embedding = TokenEmbedding(args)

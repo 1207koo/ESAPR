@@ -153,7 +153,7 @@ class VAEEvalDataset(data_utils.Dataset):
 
 		d = {}
 		d['data'] = data
-		d['candidates'] = candidates
+		d['candidates'] = torch.LongTensor(candidates)
 		d['c_label'] = torch.LongTensor(c_labels)
 		d['label'] = label
 

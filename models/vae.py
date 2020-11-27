@@ -52,10 +52,10 @@ class VAEModel(BaseModel):
 		info = {} if self.output_info else None
 
 		y = self.encoder(x)
-		mu = y[:self.encode_len]
-		logvar = y[self.encode_len:]
+		mu = y[:, :self.encode_len]
+		logvar = y[:, self.encode_len:]
 		sigma = torch.exp(0.5 * logvar)
-		z = mu + torch.randn(self.encode_len) * sigma
+		z = mu + torch.randn_like(sigma) * sigma
 		x0 = self.decoder(z)
 		x0 = x0.view(-1, self.max_len, self.num_items)
 		ret = {'logits':x0, 'info':info}

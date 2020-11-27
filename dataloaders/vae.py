@@ -85,11 +85,6 @@ class VAETrainDataset(data_utils.Dataset):
 		end = offset  # exclude offset (meant to be)
 		seq = seq[beg:end]
 
-		negs = self.negative_samples[user]
-		answer = [seq[-1]]
-		candidates = answer + negs
-		c_labels = [1] * len(answer) + [0] * len(negs)
-
 		label = torch.zeros(self.max_len)
 		label[-len(seq):] = seq
 		labelv = label.view(-1, 1)
@@ -100,8 +95,6 @@ class VAETrainDataset(data_utils.Dataset):
 
 		d = {}
 		d['data'] = data
-		d['candidates'] = candidates
-		d['c_label'] = c_label
 		d['label'] = label
 
 		padding_len = self.max_len - len(seq)
@@ -130,6 +123,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		self.max_len = args.max_len
 		self.num_items = len(dataset['smap'])
 		self.special_tokens = dataset['special_tokens']
+		self.negative_samples = negative_samples
 
 		self.output_timestamps = args.dataloader_output_timestamp
 		self.output_days = args.dataloader_output_days
@@ -146,6 +140,11 @@ class VAEEvalDataset(data_utils.Dataset):
 		end = pos + 1
 		seq = seq[beg:end]
 
+		negs = self.negative_samples[user]
+		answer = [seq[-1]]
+		candidates = answer + negs
+		c_labels = [1] * len(answer) + [0] * len(negs)
+
 		label = torch.zeros(self.max_len)
 		label[-len(seq):] = seq
 		labelv = label.view(-1, 1)
@@ -156,6 +155,8 @@ class VAEEvalDataset(data_utils.Dataset):
 
 		d = {}
 		d['data'] = data
+		d['candidates'] = candidates
+		d['c_label'] = c_label
 		d['label'] = label
 
 		padding_len = self.max_len - len(seq)

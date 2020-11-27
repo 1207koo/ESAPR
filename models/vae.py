@@ -56,5 +56,9 @@ class VAEModel(BaseModel):
 		if not self.training:
 			# get scores (B x V) for validation
 			last_logits = x0[:, -1, :].squeeze()  # B x H
-			ret['scores'] = torch.FloatTensor([l[c] for l, c in zip(last_logits, d['candidates'])])  # B x C
+			B = last_logits.size()[0]
+			S = torch.zeros_like(d['candidates'])
+			for i in range(B):
+				S[i] = last_logits[i][d['candidates'][i]]
+			ret['scores'] = S  # B x C
 		return ret

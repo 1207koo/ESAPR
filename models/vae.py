@@ -1,6 +1,4 @@
 import torch.nn as nn
-from .transformer_models.heads import *
-from .transformer_models.embeddings import *
 from models.base import BaseModel
 
 
@@ -37,11 +35,6 @@ class VAEModel(BaseModel):
 			nn.Linear(1024, self.max_len * (self.num_items + 1))
 		)
 		self.init_weights()
-		self.token_embedding = TokenEmbedding(args)
-		if args.headtype == 'dot':
-			self.head = BertDotProductPredictionHead(args, self.token_embedding.emb)
-		elif args.headtype == 'linear':
-			self.head = BertLinearPredictionHead(args)
 
 	@classmethod
 	def code(cls):
@@ -61,15 +54,6 @@ class VAEModel(BaseModel):
 		ret = {'logits':x0, 'info':info}
 		if not self.training:
 			# get scores (B x V) for validation
-			last_logits = x0[:, -1, :]  # B x H
-			ret['scores'] = self.get_scores(d, last_logits)  # B x C
+			last_logits = x0[:, -1, :].squeeze()  # B x H
+			ret['scores'] = torch.FloatTensor([l[c] for l, c in last_logits, d['candidates']])  # B x C
 		return ret
-
-	def get_scores(self, d, logits):
-		# logits : B x H or M x H
-		if self.training:  # logits : M x H, returns M x V
-			h = self.head(logits)  # M x V
-		else:  # logits : B x H,  returns B x C
-			candidates = d['candidates']  # B x C
-			h = self.head(logits, candidates)  # B x C
-		return h

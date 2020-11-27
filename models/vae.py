@@ -47,7 +47,8 @@ class VAEModel(BaseModel):
 	def code(cls):
 		return 'vae'
 
-	def forward(self, x):
+	def forward(self, d):
+		x = d['data']
 		info = {} if self.output_info else None
 
 		y = self.encoder(x)

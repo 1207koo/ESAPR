@@ -57,7 +57,7 @@ class VAEModel(BaseModel):
 		sigma = torch.exp(0.5 * logvar)
 		z = mu + torch.randn_like(sigma) * sigma
 		x0 = self.decoder(z)
-		x0 = x0.view(-1, self.max_len, self.num_items)
+		x0 = x0.view(-1, self.max_len, self.num_items + 1)
 		ret = {'logits':x0, 'info':info}
 		if not self.training:
 			# get scores (B x V) for validation

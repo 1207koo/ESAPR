@@ -1,5 +1,5 @@
-from meantime.config import *
-from meantime.communicator import Communicator
+from config import *
+from communicator import Communicator
 
 import numpy as np
 import torch

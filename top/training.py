@@ -1,8 +1,8 @@
-from meantime.models import model_factory
-from meantime.dataloaders import dataloader_factory
-from meantime.trainers import trainer_factory
-from meantime.utils import *
-from meantime.config import *
+from models import model_factory
+from dataloaders import dataloader_factory
+from trainers import trainer_factory
+from utils import *
+from config import *
 
 
 def main(args):

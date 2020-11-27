@@ -1,6 +1,6 @@
 from .base import BaseModel
-from meantime.utils import all_subclasses
-from meantime.utils import import_all_subclasses
+from utils import all_subclasses
+from utils import import_all_subclasses
 import_all_subclasses(__file__, __name__, BaseModel)
 
 MODELS = {c.code():c

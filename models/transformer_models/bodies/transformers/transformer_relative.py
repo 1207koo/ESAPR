@@ -1,4 +1,4 @@
-from meantime.models.transformer_models.utils import PositionwiseFeedForward, SublayerConnection
+from models.transformer_models.utils import PositionwiseFeedForward, SublayerConnection
 
 import torch
 from torch import nn as nn

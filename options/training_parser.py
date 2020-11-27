@@ -1,11 +1,11 @@
-from meantime.datasets import DATASETS
-from meantime.dataloaders import DATALOADERS
-from meantime.models import MODELS
-from meantime.trainers import TRAINERS
-from meantime.dataloaders.negative_samplers import NEGATIVE_SAMPLERS
-from meantime.options.set_template import set_template
-from meantime.utils import str2bool
-from meantime.config import LOCAL_DATA_FOLDER
+from datasets import DATASETS
+from dataloaders import DATALOADERS
+from models import MODELS
+from trainers import TRAINERS
+from dataloaders.negative_samplers import NEGATIVE_SAMPLERS
+from options.set_template import set_template
+from utils import str2bool
+from config import LOCAL_DATA_FOLDER
 
 import argparse
 

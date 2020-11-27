@@ -1,4 +1,4 @@
-from meantime.options.training_parser import TrainingParser
+from options.training_parser import TrainingParser
 
 import argparse
 

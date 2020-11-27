@@ -1,7 +1,7 @@
 from .base import AbstractDataloader
-from meantime.datasets import dataset_factory
-from meantime.utils import all_subclasses
-from meantime.utils import import_all_subclasses
+from datasets import dataset_factory
+from utils import all_subclasses
+from utils import import_all_subclasses
 import_all_subclasses(__file__, __name__, AbstractDataloader)
 
 DATALOADERS = {c.code():c

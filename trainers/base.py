@@ -1,9 +1,9 @@
-from meantime.loggers import *
+from loggers import *
 # from config import STATE_DICT_KEY, OPTIMIZER_STATE_DICT_KEY, TRAIN_LOADER_RNG_STATE_DICT_KEY
-from meantime.config import *
-from meantime.utils import AverageMeterSet
-from meantime.utils import fix_random_seed_as
-from meantime.analyze_table import find_saturation_point
+from config import *
+from utils import AverageMeterSet
+from utils import fix_random_seed_as
+from analyze_table import find_saturation_point
 
 import torch
 import torch.nn as nn

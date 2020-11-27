@@ -1,4 +1,4 @@
-from meantime.config import RECENT_STATE_DICT_FILENAME, BEST_STATE_DICT_FILENAME, USE_WANDB
+from config import RECENT_STATE_DICT_FILENAME, BEST_STATE_DICT_FILENAME, USE_WANDB
 
 import torch
 import wandb

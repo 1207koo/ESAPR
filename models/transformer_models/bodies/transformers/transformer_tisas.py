@@ -1,5 +1,5 @@
 import torch
-from meantime.models.transformer_models.utils import PositionwiseFeedForward, SublayerConnection
+from models.transformer_models.utils import PositionwiseFeedForward, SublayerConnection
 from torch import nn as nn
 from torch.nn import functional as F
 

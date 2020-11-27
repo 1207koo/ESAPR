@@ -1,4 +1,4 @@
-from meantime.models.transformer_models.utils import PositionwiseFeedForward
+from models.transformer_models.utils import PositionwiseFeedForward
 
 import torch
 from torch import nn as nn

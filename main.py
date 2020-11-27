@@ -1,5 +1,5 @@
-from meantime.options import parse_args
-from meantime.top.training import main as training_main
+from options import parse_args
+from top.training import main as training_main
 
 from dotmap import DotMap
 

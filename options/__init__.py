@@ -1,4 +1,4 @@
-from meantime.options.parser import Parser
+from options.parser import Parser
 
 
 def parse_args(sys_argv):

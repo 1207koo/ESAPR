@@ -1,4 +1,4 @@
-from meantime.models.base import BaseModel
+from models.base import BaseModel
 
 import torch
 import torch.nn as nn

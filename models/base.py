@@ -1,8 +1,8 @@
-from meantime.utils import fix_random_seed_as
-from meantime.utils import load_pretrained_weights
-from meantime.models.transformer_models.bodies.transformers.transformer_meantime import MixedAttention
-from meantime.models.transformer_models.bodies.transformers.transformer_relative import RelAttention
-from meantime.models.transformer_models.heads import BertDiscriminatorHead, BertDotProductPredictionHead
+from utils import fix_random_seed_as
+from utils import load_pretrained_weights
+from models.transformer_models.bodies.transformers.transformer_meantime import MixedAttention
+from models.transformer_models.bodies.transformers.transformer_relative import RelAttention
+from models.transformer_models.heads import BertDiscriminatorHead, BertDotProductPredictionHead
 
 import torch.nn as nn
 

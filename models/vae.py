@@ -60,7 +60,7 @@ class VAEModel(BaseModel):
 		ret = {'logits':x0, 'info':info}
 		if not self.training:
 			# get scores (B x V) for validation
-			last_logits = logits[:, -1, :]  # B x H
+			last_logits = x0[:, -1, :]  # B x H
 			ret['scores'] = self.get_scores(d, last_logits)  # B x C
 		return ret
 

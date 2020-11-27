@@ -24,6 +24,8 @@ class VAETrainer(AbstractTrainer):
 
 	def calculate_loss(self, batch):
 		d = self.model(batch['data'])
+		print(d['logits'].size)
+		print(batch['label'].size)
 		loss = self.ce(d['logits'][:, -self.recover_len:], batch['label'][:, -self.recover_len:])
 		return loss
 

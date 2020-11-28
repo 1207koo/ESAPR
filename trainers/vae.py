@@ -11,8 +11,8 @@ class VAETrainer(AbstractTrainer):
 	def __init__(self, args, model, train_loader, val_loader, test_loader, export_root):
 		super().__init__(args, model, train_loader, val_loader, test_loader, export_root)
 		self.max_len = args.max_len
-        self.__beta = 0.0
-        self.anneal_amount = 1.0 / 3000
+		self.__beta = 0.0
+		self.anneal_amount = 1.0 / 3000
 		self.current_best_metric = 0.0
 		self.anneal_cap = 1.0
 
@@ -26,11 +26,11 @@ class VAETrainer(AbstractTrainer):
 	def log_extra_train_info(self, log_data):
 		pass
 
-    @property
-    def beta(self):
-        if self.model.training:
-            self.__beta = min(self.__beta + self.anneal_amount, self.anneal_cap)
-        return self.__beta
+	@property
+	def beta(self):
+		if self.model.training:
+			self.__beta = min(self.__beta + self.anneal_amount, self.anneal_cap)
+		return self.__beta
 	
 	def calculate_loss(self, batch):
 		d = self.model(batch)
@@ -49,8 +49,8 @@ class VAETrainer(AbstractTrainer):
 		scores = logits.gather(1, candidates)
 
 		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)
-        if self.finding_best_beta:
-            if self.current_best_metric < metrics[self.best_metric]:
-                self.current_best_metric = metrics[self.best_metric]
-                self.best_beta = self.__beta
+		if self.finding_best_beta:
+			if self.current_best_metric < metrics[self.best_metric]:
+				self.current_best_metric = metrics[self.best_metric]
+				self.best_beta = self.__beta
 		return metrics

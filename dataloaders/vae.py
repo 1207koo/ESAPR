@@ -149,7 +149,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		label[-len(seq):] = torch.LongTensor(seq)
 
 		data = torch.zeros(self.num_items + 1)
-		v, ctorch.unique(label, return_counts=True)
+		v, c = torch.unique(label, return_counts=True)
 		data[v] += c / self.max_len
 		data[label[-1]] -= 1
 

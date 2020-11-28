@@ -65,7 +65,7 @@ class VAETrainer(AbstractTrainer):
 				else:
 					best_metric = self.best_metric_at_best_epoch
 					best_epoch = self.best_epoch
-					self.recover_len /= 2
+					self.recover_len //= 2
 
 			if stop_training:
 				# load best model

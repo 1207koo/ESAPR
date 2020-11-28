@@ -35,6 +35,7 @@ class VAETrainer(AbstractTrainer):
 
 	def calculate_metrics(self, batch):
 		labels = batch['c_label']
+		candidates = batch['candidates']
 		logits = self.model(batch)['logits']
 		scores = logits.gather(1, candidates)
 

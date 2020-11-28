@@ -49,8 +49,7 @@ class VAETrainer(AbstractTrainer):
 		scores = logits.gather(1, candidates)
 
 		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)
-		if self.finding_best_beta:
-			if self.current_best_metric < metrics[self.best_metric]:
-				self.current_best_metric = metrics[self.best_metric]
-				self.best_beta = self.__beta
+		if self.current_best_metric < metrics[self.best_metric]:
+			self.current_best_metric = metrics[self.best_metric]
+			self.best_beta = self.__beta
 		return metrics

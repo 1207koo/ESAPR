@@ -4,6 +4,7 @@ from utils import fix_random_seed_as
 
 import torch
 import torch.nn as nn
+import torch.Functional as F
 
 
 class VAETrainer(AbstractTrainer):

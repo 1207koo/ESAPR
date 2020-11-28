@@ -12,7 +12,7 @@ class VAETrainer(AbstractTrainer):
 		super().__init__(args, model, train_loader, val_loader, test_loader, export_root)
 		self.max_len = args.max_len
         self.__beta = 0.0
-        self.anneal_amount = 1.0 / 64
+        self.anneal_amount = 1.0 / 3000
 		self.current_best_metric = 0.0
 		self.anneal_cap = 1.0
 

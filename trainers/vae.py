@@ -2,13 +2,13 @@ from .base import AbstractTrainer
 from .utils import recalls_and_ndcgs_for_ks
 from utils import fix_random_seed_as
 
+import torch
 import torch.nn as nn
 
 
 class VAETrainer(AbstractTrainer):
 	def __init__(self, args, model, train_loader, val_loader, test_loader, export_root):
 		super().__init__(args, model, train_loader, val_loader, test_loader, export_root)
-		self.ce = nn.CrossEntropyLoss()
 		self.max_len = args.max_len
 		self.recover_len = self.max_len
 
@@ -24,9 +24,10 @@ class VAETrainer(AbstractTrainer):
 
 	def calculate_loss(self, batch):
 		d = self.model(batch)
+		recovering_label = d['labels'][-self.recover_len:]
 		recon_x, x = d['logits'], batch['data']
 		mu, logvar = d['mu'], d['logvar']
-		BCE = -torch.mean(torch.sum(F.log_softmax(recon_x, 1) * x, -1))
+		BCE = -torch.mean(torch.sum(F.log_softmax(recon_x, 1)[:, recovering_label] * x[:, recovering_label], -1))
 		KLD = -0.5 * torch.mean(torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=1))
 		loss = CE + KLD
 		return loss

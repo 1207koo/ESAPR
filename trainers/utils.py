@@ -27,8 +27,8 @@ def ndcg(scores, labels, k):
 def recalls_and_ndcgs_for_ks(scores, labels, ks):
 	metrics = {}
 
-	scores = scores.cpu()
-	labels = labels.cpu()
+	scores = scores
+	labels = labels
 	answer_count = labels.sum(1)
 	answer_count_float = answer_count.float()
 	labels_float = labels.float()

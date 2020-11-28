@@ -144,7 +144,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		answer = [seq[-1]]
 		candidates = answer + negs
 		c_labels = torch.LongTensor([1] * len(answer) + [0] * len(negs))
-		c_label = torch.zeros(self.num_items + 1)
+		c_label = torch.zeros((self.num_items + 1), dtype=torch.long)
 		v, c = torch.unique(c_labels, return_counts=True)
 		c_label[v] += c
 

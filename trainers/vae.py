@@ -27,7 +27,7 @@ class VAETrainer(AbstractTrainer):
 		d = self.model(batch)
 		recovering_label = batch['label'][:, -self.recover_len:]
 		recon_x = d['logits']
-		score = F.softmax(recon_x).gather(1, recovering_label)
+		score = F.softmax(recon_x, 1).gather(1, recovering_label)
 		loss = (-score).sum(1).mean()
 		return loss
 

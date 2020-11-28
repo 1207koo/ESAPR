@@ -25,10 +25,11 @@ class VAETrainer(AbstractTrainer):
 
 	def calculate_loss(self, batch):
 		d = self.model(batch)
-		recovering_label = batch['label'][:, -self.recover_len:]
-		recon_x = d['logits']
-		score = F.softmax(recon_x, 1).gather(1, recovering_label)
-		loss = (-score).sum(1).mean()
+		recon_x, x = d['logits'], batch['data']
+		mu, logvar = d['mu'], d['logvar']
+		CE = -torch.mean(torch.sum(F.log_softmax(recon_x, 1) * x, -1))
+		KLD = -0.5 * torch.mean(torch.sum(1 + logvar - mu.pow(2) - logvar.exp(), dim=1))
+		loss = CE + KLD
 		return loss
 
 	def calculate_metrics(self, batch):

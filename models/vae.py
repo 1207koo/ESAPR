@@ -45,7 +45,9 @@ class VAEModel(BaseModel):
 		mu = y[:, :self.encode_len]
 		logvar = y[:, self.encode_len:]
 		sigma = torch.exp(0.5 * logvar)
-		z = mu + torch.randn_like(sigma) * sigma
+		z = mu
+		if self.training:
+			z = mu + torch.randn_like(sigma) * sigma
 		x0 = self.decoder(z)
 		ret = {'logits':x0, 'mu':mu, 'logvar':logvar, 'info':info}
 		return ret

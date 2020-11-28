@@ -46,7 +46,7 @@ class VAETrainer(AbstractTrainer):
 		candidates = batch['candidates']
 		logits = self.model(batch)['logits']
 		logits[data != 0] = -float("inf")
-		scores = logits.gather(1, candidates)
+		print(torch.sum(data,1))
 
 		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)
 		if self.current_best_metric < metrics[self.best_metric]:

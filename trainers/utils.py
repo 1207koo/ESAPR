@@ -36,6 +36,7 @@ def recalls_and_ndcgs_for_ks(scores, labels, ks):
 	cut = rank
 	for k in sorted(ks, reverse=True):
 	   cut = cut[:, :k]
+	   print(cut)
 	   hits = labels_float.gather(1, cut)
 	   metrics['Recall@%d' % k] = (hits.sum(1) / answer_count_float).mean().item()
 

@@ -52,7 +52,7 @@ saturation_wait_epochs: 20
 model_code: vae
 model_init_seed: 0
 model_init_range: 0.02
-max_len: 64
+max_len: 256
 hidden_units: 64
 num_blocks: 2
 num_heads: 2

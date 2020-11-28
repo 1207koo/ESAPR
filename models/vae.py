@@ -12,28 +12,24 @@ class VAEModel(BaseModel):
 		self.encode_len = args.encode_len
 		self.encoder = nn.Sequential(
 			nn.Flatten(),
-			nn.Linear(self.max_len * (self.num_items + 1), 1024),
-			nn.BatchNorm1d(1024),
+			nn.Linear(self.num_items + 1, 1024),
 			nn.ReLU(),
 			nn.Linear(1024, 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(),
 			nn.Linear(1024, 1024),
-			nn.BatchNorm1d(1024),
 			nn.ReLU(),
 			nn.Linear(1024, 2 * self.encode_len)
 		)
 		self.decoder = nn.Sequential(
 			nn.Linear(self.encode_len, 1024),
-			nn.BatchNorm1d(1024),
 			nn.ReLU(),
 			nn.Linear(1024, 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(),
 			nn.Linear(1024, 1024),
-			nn.BatchNorm1d(1024),
 			nn.ReLU(),
-			nn.Linear(1024, self.max_len * (self.num_items + 1))
+			nn.Linear(1024, self.num_items + 1)
 		)
 		self.init_weights()
 
@@ -52,13 +48,11 @@ class VAEModel(BaseModel):
 		z = mu + torch.randn_like(sigma) * sigma
 		x0 = self.decoder(z)
 		x0 = x0.view(-1, self.max_len, self.num_items + 1)
-		ret = {'logits':x0, 'info':info}
+		ret = {'logits':x0, 'mu':mu, 'logvar':logvar, 'info':info}
 		if not self.training:
-			# get scores (B x V) for validation
-			last_logits = x0[:, -1, :].squeeze()  # B x H
-			B = last_logits.size()[0]
+			B = x0.size()[0]
 			S = torch.zeros_like(d['candidates'])
 			for i in range(B):
-				S[i] = last_logits[i][d['candidates'][i]]
+				S[i] = x0[i][d['candidates'][i]]
 			ret['scores'] = S  # B x C
 		return ret

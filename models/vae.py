@@ -48,10 +48,4 @@ class VAEModel(BaseModel):
 		z = mu + torch.randn_like(sigma) * sigma
 		x0 = self.decoder(z)
 		ret = {'logits':x0, 'mu':mu, 'logvar':logvar, 'info':info}
-		if not self.training:
-			B = x0.size()[0]
-			S = torch.zeros_like(d['candidates'])
-			for i in range(B):
-				S[i] = x0[i][d['candidates'][i]]
-			ret['scores'] = S  # B x C
 		return ret

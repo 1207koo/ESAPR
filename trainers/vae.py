@@ -5,6 +5,7 @@ from utils import fix_random_seed_as
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import numpy as np
 
 
 class VAETrainer(AbstractTrainer):
@@ -34,9 +35,9 @@ class VAETrainer(AbstractTrainer):
 		return loss
 
 	def calculate_metrics(self, batch):
-		labels = batch['c_label']
-		scores = self.model(batch)['scores']  # B x C
-		# scores = scores.gather(1, candidates)  # B x C
+		data, labels = batch['data'], batch['c_label']
+		scores = self.model(batch)['logits']
+		scores[data.nonzero()] = -np.inf
 
 		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)
 		return metrics

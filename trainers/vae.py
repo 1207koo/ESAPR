@@ -35,10 +35,10 @@ class VAETrainer(AbstractTrainer):
 
 	def calculate_metrics(self, batch):
 		data, labels = batch['data'], batch['c_label']
-		scores = self.model(batch)['logits']
-		scores[data != 0] = -float("inf")
+		logits = self.model(batch)['logits']
+		logits[data != 0] = -float("inf")
 
-		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)
+		metrics = recalls_and_ndcgs_for_ks(logits, labels, self.metric_ks)
 		return metrics
 
 	def train(self):

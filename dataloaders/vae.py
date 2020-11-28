@@ -147,6 +147,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		c_label = torch.zeros((self.num_items + 1), dtype=torch.long)
 		v, c = torch.unique(c_labels, return_counts=True)
 		c_label[v] += c
+		print(c_label.sum())
 
 		label = torch.zeros((self.max_len), dtype=torch.long)
 		label[-len(seq):] = torch.LongTensor(seq)

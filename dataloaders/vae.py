@@ -150,7 +150,7 @@ class VAEEvalDataset(data_utils.Dataset):
 
 		data = torch.zeros(self.num_items + 1)
 		v, c = torch.unique(label, return_counts=True)
-		data[v] += c / self.max_len
+		data[v] += c
 		data[label[-1]] -= 1
 
 		d = {}

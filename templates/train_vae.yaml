@@ -58,7 +58,7 @@ max_len: 256
 hidden_units: 64
 num_blocks: 2
 num_heads: 2
-encode_len: 200
+encode_len: 256
 dropout: 0.2
 mask_prob: 0.2
 output_info: false

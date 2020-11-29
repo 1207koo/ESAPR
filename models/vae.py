@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from models.base import BaseModel
 
+import numpy as np
+
 
 class VAEModel(BaseModel):
 	def __init__(self, args):
@@ -35,7 +37,7 @@ class VAEModel(BaseModel):
 				size = layer.weight.size()
 				fan_out = size[0]
 				fan_in = size[1]
-				std = torch.sqrt(2.0/(fan_in + fan_out))
+				std = np.sqrt(2.0/(fan_in + fan_out))
 				layer.weight.data.normal_(0.0, std)
 
 				# Normal Initialization for Biases
@@ -47,7 +49,7 @@ class VAEModel(BaseModel):
 				size = layer.weight.size()
 				fan_out = size[0]
 				fan_in = size[1]
-				std = torch.sqrt(2.0/(fan_in + fan_out))
+				std = np.sqrt(2.0/(fan_in + fan_out))
 				layer.weight.data.normal_(0.0, std)
 
 				# Normal Initialization for Biases

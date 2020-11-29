@@ -29,27 +29,27 @@ class VAEModel(BaseModel):
 		self.init_weights()
 	
 	def init_weights(self):
-        for layer in self.encoder:
-            # Xavier Initialization for weights
-            size = layer.weight.size()
-            fan_out = size[0]
-            fan_in = size[1]
-            std = np.sqrt(2.0/(fan_in + fan_out))
-            layer.weight.data.normal_(0.0, std)
+		for layer in self.encoder:
+			# Xavier Initialization for weights
+			size = layer.weight.size()
+			fan_out = size[0]
+			fan_in = size[1]
+			std = np.sqrt(2.0/(fan_in + fan_out))
+			layer.weight.data.normal_(0.0, std)
 
-            # Normal Initialization for Biases
-            layer.bias.data.normal_(0.0, 0.001)
-        
-        for layer in self.decoder:
-            # Xavier Initialization for weights
-            size = layer.weight.size()
-            fan_out = size[0]
-            fan_in = size[1]
-            std = np.sqrt(2.0/(fan_in + fan_out))
-            layer.weight.data.normal_(0.0, std)
+			# Normal Initialization for Biases
+			layer.bias.data.normal_(0.0, 0.001)
+		
+		for layer in self.decoder:
+			# Xavier Initialization for weights
+			size = layer.weight.size()
+			fan_out = size[0]
+			fan_in = size[1]
+			std = np.sqrt(2.0/(fan_in + fan_out))
+			layer.weight.data.normal_(0.0, std)
 
-            # Normal Initialization for Biases
-            layer.bias.data.normal_(0.0, 0.001)
+			# Normal Initialization for Biases
+			layer.bias.data.normal_(0.0, 0.001)
 
 	@classmethod
 	def code(cls):

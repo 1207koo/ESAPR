@@ -14,12 +14,12 @@ class VAEModel(BaseModel):
 			nn.BatchNorm1d(self.num_items + 1),
 			nn.Dropout(0.5),
 			nn.Linear(self.num_items + 1, 600),
-			nn.TanH(),
+			nn.Tanh(),
 			nn.Linear(600, 2 * self.encode_len)
 		)
 		self.decoder = nn.Sequential(
 			nn.Linear(self.encode_len, 600),
-			nn.TanH(),
+			nn.Tanh(),
 			nn.Linear(600, self.num_items + 1)
 		)
 		self.init_weights()

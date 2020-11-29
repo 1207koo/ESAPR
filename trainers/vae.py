@@ -7,6 +7,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from tqdm import tqdm
+
 
 class VAETrainer(AbstractTrainer):
 	def __init__(self, args, model, train_loader, val_loader, test_loader, export_root):

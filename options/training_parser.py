@@ -115,6 +115,10 @@ class TrainingParser:
 		parser.add_argument('--best_metric', type=str, help='This metric will be used to compare and determine the best model')
 		# saturation wait epochs
 		parser.add_argument('--saturation_wait_epochs', type=int, help="If validation performance doesn't improve for this number of epochs, the training will stop")
+		
+		# VAE
+		parser.add_argument('--total_anneal_steps', type=int, help='The total number of gradient updates for annealing')
+		parser.add_argument('--anneal_cap', type=float, help='Largest annealing parameter')
 
 		args = parser.parse_known_args(self.sys_argv)[0]
 		return vars(args)

@@ -49,6 +49,8 @@ metric_ks:
 - 50
 best_metric: NDCG@10
 saturation_wait_epochs: 20
+total_anneal_steps: 200000
+anneal_cap: 0.2
 model_code: vae
 model_init_seed: 0
 model_init_range: 0.02

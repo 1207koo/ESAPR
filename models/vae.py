@@ -11,25 +11,16 @@ class VAEModel(BaseModel):
 		self.num_items = args.num_items
 		self.encode_len = args.encode_len
 		self.encoder = nn.Sequential(
-			nn.Flatten(),
-			nn.Linear(self.num_items + 1, 1024),
-			nn.ReLU(),
-			nn.Linear(1024, 1024),
-			nn.BatchNorm1d(1024),
-			nn.ReLU(),
-			nn.Linear(1024, 1024),
-			nn.ReLU(),
-			nn.Linear(1024, 2 * self.encode_len)
+			nn.BatchNorm1d(self.num_items + 1),
+			nn.Dropout(0.5),
+			nn.Linear(self.num_items + 1, 600),
+			nn.TanH(),
+			nn.Linear(600, 2 * self.encode_len)
 		)
 		self.decoder = nn.Sequential(
-			nn.Linear(self.encode_len, 1024),
-			nn.ReLU(),
-			nn.Linear(1024, 1024),
-			nn.BatchNorm1d(1024),
-			nn.ReLU(),
-			nn.Linear(1024, 1024),
-			nn.ReLU(),
-			nn.Linear(1024, self.num_items + 1)
+			nn.Linear(self.encode_len, 600),
+			nn.TanH(),
+			nn.Linear(600, self.num_items + 1)
 		)
 		self.init_weights()
 

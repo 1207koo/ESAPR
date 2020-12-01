@@ -48,8 +48,7 @@ class VAETrainer(AbstractTrainer):
 		data, labels = batch['data'], batch['c_label']
 		candidates = batch['candidates']
 		logits = self.model(batch)['logits']
-		logits = F.softmax(logits, 1)
-		logits -= data / self.max_len
+		logits[data > 0] = -float("inf")
 		logits[:, 0] = -float("inf")
 		scores = logits.gather(1, candidates)
 

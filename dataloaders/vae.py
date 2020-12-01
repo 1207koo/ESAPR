@@ -86,11 +86,8 @@ class VAETrainDataset(data_utils.Dataset):
 		label[-len(seq):] = torch.LongTensor(seq)
 
 		data = torch.zeros(self.num_items + 1)
-		v, c = torch.unique(label, return_counts=True)
+		v, c = torch.unique(label[:-1], return_counts=True)
 		data[v] += c
-		if data[1:].max() > 1:
-			print(data[1:].max())
-		data[label[-1]] -= 1
 
 		d = {}
 		d['data'] = data

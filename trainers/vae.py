@@ -36,8 +36,6 @@ class VAETrainer(AbstractTrainer):
 		d = self.model(batch)
 
 		recon_x = d['logits']
-		# x = batch['data']
-		# recon_sum = torch.sum(F.log_softmax(recon_x, 1) * x, -1)
 		recon_sum = torch.sum(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]), -1)
 		CE = -torch.mean(recon_sum)
 

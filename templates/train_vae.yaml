@@ -34,9 +34,9 @@ use_parallel: true
 num_workers: 0
 optimizer: Adam
 lr: 0.005
-weight_decay: 0.00005
+weight_decay: 0.00001
 momentum: null
-decay_step: 1024
+decay_step: 16
 gamma: 0.9
 clip_grad_norm: 5.0
 num_epochs: -1

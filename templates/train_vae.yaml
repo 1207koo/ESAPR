@@ -58,7 +58,7 @@ dropout: 0.5
 encoder_hidden_layer:
 - 512
 max_len: 256
-encode_len: 256
+encode_len: 128
 model_init_seed: 0
 model_init_range: 0.02
 output_info: false

@@ -48,7 +48,9 @@ class VAETrainer(AbstractTrainer):
 		data, labels = batch['data'], batch['c_label']
 		candidates = batch['candidates']
 		logits = self.model(batch)['logits']
-		logits[data != 0] = -float("inf")
+		logits = F.softmax(logits, 1)
+		logits -= data / self.max_len
+		logits[:, 0] = -float("inf")
 		scores = logits.gather(1, candidates)
 
 		metrics = recalls_and_ndcgs_for_ks(scores, labels, self.metric_ks)

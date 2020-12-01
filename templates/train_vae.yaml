@@ -33,11 +33,11 @@ device: cuda
 use_parallel: true
 num_workers: 0
 optimizer: Adam
-lr: 0.001
-weight_decay: 0.00
+lr: 0.01
+weight_decay: 0.0005
 momentum: null
-decay_step: 25
-gamma: 1.0
+decay_step: 1024
+gamma: 0.9
 clip_grad_norm: 5.0
 num_epochs: -1
 log_period_as_iter: 12800

@@ -33,8 +33,8 @@ device: cuda
 use_parallel: true
 num_workers: 0
 optimizer: Adam
-lr: 0.01
-weight_decay: 0.0005
+lr: 0.005
+weight_decay: 0.00005
 momentum: null
 decay_step: 1024
 gamma: 0.9

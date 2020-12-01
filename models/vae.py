@@ -15,8 +15,8 @@ class VAEModel(BaseModel):
 		self.encoder_hidden_layer = args.encoder_hidden_layer
 		self.encode_len = args.encode_len
 
-		self.encoder_shape = [self.num_items + 1] + self.encoder_hidden_layer + [2 * self.encoder_len]
-		self.decoder_shape = [self.encoder_len] + self.encoder_hidden_layer[::-1] + [self.num_items + 1]
+		self.encoder_shape = [self.num_items + 1] + self.encoder_hidden_layer + [2 * self.encode_len]
+		self.decoder_shape = [self.encode_len] + self.encoder_hidden_layer[::-1] + [self.num_items + 1]
 		self.dropout = args.dropout
 
 		self.drop = nn.Dropout(self.dropout)

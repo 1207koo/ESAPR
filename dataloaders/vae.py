@@ -118,7 +118,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		self.user2dict = dataset['user2dict']
 		self.positions = positions
 		self.max_len = args.max_len
-		self.num_items = args_num_items
+		self.num_items = args.num_items
 		self.negative_samples = negative_samples
 
 		self.output_timestamps = args.dataloader_output_timestamp

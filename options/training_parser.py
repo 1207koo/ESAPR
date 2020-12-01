@@ -119,6 +119,7 @@ class TrainingParser:
 		# VAE
 		parser.add_argument('--total_anneal_steps', type=int, help='The total number of gradient updates for annealing')
 		parser.add_argument('--anneal_cap', type=float, help='Largest annealing parameter')
+		parser.add_argument('--train_transfer', type=str2bool, help='If true, training wil transfer to predicting last element (from VAE)')
 
 		args = parser.parse_known_args(self.sys_argv)[0]
 		return vars(args)
@@ -154,6 +155,7 @@ class TrainingParser:
 
 		# VAE
 		parser.add_argument('--encode_len', type=int, help='Length of the result of encoder')
+		parser.add_argument('--encoder_hidden_layer', nargs='+', type=int, help='List of hidden layer in encoder')
 
 		args = parser.parse_known_args(self.sys_argv)[0]
 		return vars(args)

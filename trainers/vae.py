@@ -20,6 +20,7 @@ class VAETrainer(AbstractTrainer):
 		self.anneal_cap = args.anneal_cap
 		self.update_count = 0
 		self.recover_len = args.max_len
+		self.train_transfer = args.train_transfer
 
 	@classmethod
 	def code(cls):
@@ -77,7 +78,7 @@ class VAETrainer(AbstractTrainer):
 			elif (self.saturation_wait_epochs is not None) and\
 					(epoch - best_epoch >= self.saturation_wait_epochs):
 				# stop training if val perf doesn't improve for saturation_wait_epochs
-				if self.recover_len > 1:
+				if self.recover_len > 1 and self.train_transfer:
 					self.recover_len //= 2
 					best_epoch = self.best_epoch
 					best_metric = self.best_metric_at_best_epoch
@@ -167,3 +168,55 @@ class VAETrainer(AbstractTrainer):
 		self.log_extra_train_info(log_data)
 		self.logger_service.log_train(log_data)
 		return accum_iter
+
+	def validate(self, epoch, accum_iter, mode, doLog=True, **kwargs):
+		if mode == 'val':
+			loader = self.val_loader
+		elif mode == 'test':
+			loader = self.test_loader
+		else:
+			raise ValueError
+
+		self.model.eval()
+
+		average_meter_set = AverageMeterSet()
+		num_instance = 0
+
+		with torch.no_grad():
+			tqdm_dataloader = tqdm(loader) if not self.pilot else loader
+			for batch_idx, batch in enumerate(tqdm_dataloader):
+				if self.pilot and batch_idx >= self.pilot_batch_cnt:
+					# print('Break validation due to pilot mode')
+					break
+				batch = {k:v.to(self.device) for k, v in batch.items()}
+				batch_size = next(iter(batch.values())).size(0)
+				num_instance += batch_size
+
+				metrics = self.calculate_metrics(batch)
+
+				for k, v in metrics.items():
+					average_meter_set.update(k, v)
+				if not self.pilot:
+					description_metrics = ['NDCG@%d' % k for k in self.metric_ks] +\
+										  ['Recall@%d' % k for k in self.metric_ks]
+					description = '{}: '.format(mode.capitalize()) + ', '.join(s + ' {:.4f}' for s in description_metrics)
+					description = description.replace('NDCG', 'N').replace('Recall', 'R')
+					description = description.format(*(average_meter_set[k].avg for k in description_metrics))
+					tqdm_dataloader.set_description(description)
+
+			log_data = {
+				'state_dict': (self._create_state_dict(epoch, accum_iter)),
+				'epoch': epoch,
+				'accum_iter': accum_iter,
+				'num_eval_instance': num_instance,
+			}
+			log_data.update(average_meter_set.averages())
+			log_data.update(kwargs)
+			if doLog:
+				if mode == 'val':
+					self.logger_service.log_val(log_data)
+				elif mode == 'test':
+					self.logger_service.log_test(log_data)
+				else:
+					raise ValueError
+		return log_data

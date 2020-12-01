@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from models.base import BaseModel
 
 import numpy as np
@@ -11,19 +12,17 @@ class VAEModel(BaseModel):
 		self.output_info = args.output_info
 		self.max_len = args.max_len
 		self.num_items = args.num_items
+		self.encoder_hidden_layer = args.encoder_hidden_layer
 		self.encode_len = args.encode_len
-		self.encoder = nn.Sequential(
-			nn.BatchNorm1d(self.num_items + 1),
-			nn.Dropout(0.5),
-			nn.Linear(self.num_items + 1, 512),
-			nn.Tanh(),
-			nn.Linear(512, 2 * self.encode_len)
-		)
-		self.decoder = nn.Sequential(
-			nn.Linear(self.encode_len, 512),
-			nn.Tanh(),
-			nn.Linear(512, self.num_items + 1)
-		)
+
+		self.encoder_shape = [self.num_items + 1] + self.encoder_hidden_layer + [2 * self.encoder_len]
+		self.decoder_shape = [self.encoder_len] + self.encoder_hidden_layer[::-1] + [self.num_items + 1]
+		self.dropout = args.dropout
+
+		self.drop = nn.Dropout(self.dropout)
+		self.encoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.encoder_shape[:-1], self.encoder_shape[1:])])
+		self.decoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.decoder_shape[:-1], self.decoder_shape[1:])])
+		
 		self.init_weights()
 	
 	def init_weights(self):
@@ -57,15 +56,24 @@ class VAEModel(BaseModel):
 
 	def forward(self, d):
 		x = d['data']
+		x = F.normalize(x)
+		x = self.drop(x)
 		info = {} if self.output_info else None
 
-		y = self.encoder(x)
-		mu = y[:, :self.encode_len]
-		logvar = y[:, self.encode_len:]
+		for i, layer in enumerate(self.encoder):
+			x = layer(x)
+			if i < len(self.encoder) - 1:
+				 x = F.tanh(x)
+		mu = x[:, :self.encode_len]
+		logvar = x[:, self.encode_len:]
 		sigma = torch.exp(0.5 * logvar)
 		z = mu
 		if self.training:
 			z = mu + torch.randn_like(sigma) * sigma
-		x0 = self.decoder(z)
+		x0 = z
+		for i, layer in enumerate(self.decoder):
+			x0 = layer(x0)
+			if i < len(self.decoder) - 1:
+				 x0 = F.tanh(x0)
 		ret = {'logits':x0, 'mu':mu, 'logvar':logvar, 'info':info}
 		return ret

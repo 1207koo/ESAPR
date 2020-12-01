@@ -18,7 +18,7 @@ dataloader_random_seed: 0.0
 train_batch_size: 512
 val_batch_size: 512
 test_batch_size: 512
-train_window: 16
+train_window: 1
 dataloader_output_timestamp: false
 dataloader_output_days: false
 dataloader_output_user: false
@@ -47,20 +47,21 @@ metric_ks:
 - 10
 - 20
 - 50
+- 100
 best_metric: NDCG@10
 saturation_wait_epochs: 20
 total_anneal_steps: 200000
 anneal_cap: 0.2
+train_transfer: true
 model_code: vae
+dropout: 0.5
+encoder_hidden_layer:
+- 1024
+- 512
+max_len: 128
+encode_len: 128
 model_init_seed: 0
 model_init_range: 0.02
-max_len: 128
-hidden_units: 64
-num_blocks: 2
-num_heads: 2
-encode_len: 128
-dropout: 0.2
-mask_prob: 0.2
 output_info: false
 residual_ln_type: post
 headtype: dot

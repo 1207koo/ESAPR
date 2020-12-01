@@ -36,11 +36,8 @@ class VAETrainDataset(data_utils.Dataset):
 		self.users = sorted(self.user2dict.keys())
 		self.train_window = args.train_window
 		self.max_len = args.max_len
-		self.mask_prob = args.mask_prob
-		self.special_tokens = dataset['special_tokens']
-		self.num_users = len(dataset['umap'])
-		self.num_items = len(dataset['smap'])
-		args.num_items = self.num_items
+		self.num_users = args.num_users
+		self.num_items = args.num_items
 		self.rng = rng
 		self.train_ranges = train_ranges
 
@@ -121,8 +118,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		self.user2dict = dataset['user2dict']
 		self.positions = positions
 		self.max_len = args.max_len
-		self.num_items = len(dataset['smap'])
-		self.special_tokens = dataset['special_tokens']
+		self.num_items = args_num_items
 		self.negative_samples = negative_samples
 
 		self.output_timestamps = args.dataloader_output_timestamp

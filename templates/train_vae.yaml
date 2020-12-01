@@ -18,14 +18,14 @@ dataloader_random_seed: 0.0
 train_batch_size: 512
 val_batch_size: 512
 test_batch_size: 512
-train_window: 100
+train_window: 16
 dataloader_output_timestamp: false
 dataloader_output_days: false
 dataloader_output_user: false
 train_negative_sampler_code: random
 train_negative_sample_size: 0
 train_negative_sampling_seed: 0
-test_negative_sampler_code: random
+test_negative_sampler_code: popular
 test_negative_sample_size: 100
 test_negative_sampling_seed: 98765
 trainer_code: vae
@@ -34,7 +34,7 @@ use_parallel: true
 num_workers: 0
 optimizer: Adam
 lr: 0.001
-weight_decay: 0.0
+weight_decay: 0.00
 momentum: null
 decay_step: 25
 gamma: 1.0

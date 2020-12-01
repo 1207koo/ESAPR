@@ -87,8 +87,9 @@ class VAETrainDataset(data_utils.Dataset):
 
 		data = torch.zeros(self.num_items + 1)
 		v, c = torch.unique(label, return_counts=True)
-		print(c.max())
 		data[v] += c
+		if data[1:].max() > 1:
+			print(data[1:].max())
 		data[label[-1]] -= 1
 
 		d = {}

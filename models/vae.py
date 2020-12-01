@@ -20,8 +20,8 @@ class VAEModel(BaseModel):
 		self.dropout = args.dropout
 
 		self.drop = nn.Dropout(self.dropout)
-		self.encoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.encoder_shape[:-1], self.encoder_shape[1:])])
-		self.decoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.decoder_shape[:-1], self.decoder_shape[1:])])
+		self.encoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.encoder_shape[:-1], self.encoder_shape[1:]))
+		self.decoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.decoder_shape[:-1], self.decoder_shape[1:]))
 		
 		self.init_weights()
 	

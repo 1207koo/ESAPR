@@ -21,6 +21,7 @@ class VAEModel(BaseModel):
 
 		self.normalizer = nn.BatchNorm1d(self.num_items + 1)
 		self.drop = nn.Dropout(self.dropout)
+		self.activation = nn.ReLU()
 		self.encoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.encoder_shape[:-1], self.encoder_shape[1:]))
 		self.decoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.decoder_shape[:-1], self.decoder_shape[1:]))
 		
@@ -64,7 +65,7 @@ class VAEModel(BaseModel):
 		for i, layer in enumerate(self.encoder):
 			x = layer(x)
 			if i < len(self.encoder) - 1:
-				 x = torch.tanh(x)
+				 x = self.activation(x)
 		mu = x[:, :self.encode_len]
 		logvar = x[:, self.encode_len:]
 		sigma = torch.exp(0.5 * logvar)
@@ -75,6 +76,6 @@ class VAEModel(BaseModel):
 		for i, layer in enumerate(self.decoder):
 			x0 = layer(x0)
 			if i < len(self.decoder) - 1:
-				 x0 = torch.tanh(x0)
+				 x = self.activation(x)
 		ret = {'logits':x0, 'mu':mu, 'logvar':logvar, 'info':info}
 		return ret

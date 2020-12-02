@@ -130,9 +130,6 @@ class VAETrainer(AbstractTrainer):
 			else:
 				anneal = self.anneal_cap
 				
-			if self.train_transfer:
-				anneal *= (self.recover_len / self.max_len)
-
 			self.optimizer.zero_grad()
 			loss = self.calculate_loss(batch, anneal)
 			if isinstance(loss, tuple):

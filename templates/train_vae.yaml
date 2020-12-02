@@ -50,12 +50,12 @@ metric_ks:
 - 100
 best_metric: NDCG@10
 saturation_wait_epochs: 20
-total_anneal_steps: 500000
+total_anneal_steps: 200000
 anneal_cap: 0.2
 train_transfer: true
 best_model_transfer: true
 model_code: vae
-dropout: 0.5
+dropout: 0.0
 encoder_hidden_layer:
 - 512
 max_len: 128
@@ -63,17 +63,6 @@ encode_len: 128
 model_init_seed: 0
 model_init_range: 0.02
 output_info: false
-residual_ln_type: post
-headtype: dot
-head_use_ln: true
-time_unit_divide: null
-freq: 10000
-tisas_max_time_intervals: null
-marank_max_len: null
-marank_num_att_layers: null
-marank_num_linear_layers: null
-absolute_kernel_types: null
-relative_kernel_types: null
 experiment_root: experiments
 experiment_group: test
 experiment_name: vae

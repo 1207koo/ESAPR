@@ -21,6 +21,7 @@ class VAETrainer(AbstractTrainer):
 		self.update_count = 0
 		self.recover_len = args.max_len
 		self.train_transfer = args.train_transfer
+		self.best_model_transfer = args.best_model_transfer
 
 	@classmethod
 	def code(cls):
@@ -81,6 +82,14 @@ class VAETrainer(AbstractTrainer):
 					self.recover_len //= 2
 					best_epoch = self.best_epoch
 					best_metric = self.best_metric_at_best_epoch
+					if self.best_model_transfer:
+						best_model_logger = self.val_loggers[-1]
+						assert isinstance(best_model_logger, BestModelLogger)
+						weight_path = best_model_logger.filepath()
+						if self.use_parallel:
+							self.model.module.load(weight_path)
+						else:
+							self.model.load(weight_path)
 				else:
 					stop_training = True 
 

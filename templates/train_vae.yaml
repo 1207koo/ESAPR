@@ -53,6 +53,7 @@ saturation_wait_epochs: 20
 total_anneal_steps: 200000
 anneal_cap: 0.2
 train_transfer: true
+best_model_transfer: true
 model_code: vae
 dropout: 0.5
 encoder_hidden_layer:

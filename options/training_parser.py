@@ -120,6 +120,7 @@ class TrainingParser:
 		parser.add_argument('--total_anneal_steps', type=int, help='The total number of gradient updates for annealing')
 		parser.add_argument('--anneal_cap', type=float, help='Largest annealing parameter')
 		parser.add_argument('--train_transfer', type=str2bool, help='If true, training wil transfer to predicting last element (from VAE)')
+		parser.add_argument('--best_model_transfer', type=str2bool, help='If true, each transferring steps will recover best model')
 
 		args = parser.parse_known_args(self.sys_argv)[0]
 		return vars(args)

@@ -39,7 +39,7 @@ class VAETrainer(AbstractTrainer):
 		recon_x = d['logits']
 		weight_index = self.recover_len - 1 - torch.arange(self.recover_len).to(self.device)
 		weight = (2.0 ** (-torch.floor(torch.log2(weight_index + 0.5))))
-		weight = weight.view(-1, self.recover_len).repeat(recon_x.size()[0], dim=0)
+		weight = weight.view(-1, self.recover_len).repeat(recon_x.size()[0], 1)
 		recon_sum = torch.dot(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]), weight)
 		CE = -torch.mean(recon_sum)
 

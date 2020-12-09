@@ -28,18 +28,18 @@ train_negative_sampling_seed: 0
 test_negative_sampler_code: popular
 test_negative_sample_size: 100
 test_negative_sampling_seed: 98765
-weight_type: linear
-weight_constant: 1.0
+weight_type: exp_stair
+weight_constant: 2.0
 trainer_code: vae
 device: cuda
 use_parallel: true
 num_workers: 0
 optimizer: Adam
-lr: 0.005
-weight_decay: 0.00001
+lr: 0.001
+weight_decay: 0.0
 momentum: null
-decay_step: 16
-gamma: 0.9
+decay_step: 25
+gamma: 1.0
 clip_grad_norm: 5.0
 num_epochs: -1
 log_period_as_iter: 12800
@@ -60,7 +60,7 @@ model_code: vae
 dropout: 0.5
 encoder_hidden_layer:
 - 512
-max_len: 128
+max_len: 256
 encode_len: 128
 model_init_seed: 0
 model_init_range: 0.02

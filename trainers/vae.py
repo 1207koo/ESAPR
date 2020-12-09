@@ -37,7 +37,9 @@ class VAETrainer(AbstractTrainer):
 		d = self.model(batch)
 
 		recon_x = d['logits']
-		recon_sum = torch.sum(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]), -1)
+		weight_index = torch.arange(self.recover_len)
+		weight = (2.0 ** (-torch.floor(torch.log2(weight_index + 0.5))))[::-1]
+		recon_sum = torch.dot(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]), weight)
 		CE = -torch.mean(recon_sum)
 
 		mu, logvar = d['mu'], d['logvar']
@@ -79,7 +81,9 @@ class VAETrainer(AbstractTrainer):
 					(epoch - best_epoch >= self.saturation_wait_epochs):
 				# stop training if val perf doesn't improve for saturation_wait_epochs
 				if self.recover_len > 1 and self.train_transfer:
+					recover_len_before = self.recover_len
 					self.recover_len //= 2
+					print('recover_len decreased', recover_len_before, '->', self.recover_len)
 					best_epoch = self.best_epoch
 					best_metric = self.best_metric_at_best_epoch
 					if self.best_model_transfer:

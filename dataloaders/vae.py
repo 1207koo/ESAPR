@@ -40,6 +40,8 @@ class VAETrainDataset(data_utils.Dataset):
 		self.num_items = args.num_items
 		self.rng = rng
 		self.train_ranges = train_ranges
+		self.weight_type = args.weight_type
+		self.weight_constant = args.weight_constant
 
 		self.index2user_and_offsets = self.populate_indices()
 
@@ -86,13 +88,25 @@ class VAETrainDataset(data_utils.Dataset):
 		label[-len(seq):] = torch.LongTensor(seq)
 
 		data = torch.zeros(self.num_items + 1)
-		weight_index = label.size()[0] - 1 - torch.arange(label.size()[0])
-		weight = 2.0 ** (-torch.floor(torch.log2(weight_index + 0.5)))
+		N = label.size()[0]
+
+		if self.weight_type == 'exp_stair':
+			weight_index = N - 1 - torch.arange(N)
+			weight = self.weight_constant ** (-torch.floor(torch.log2(weight_index + 0.5)))
+		elif self.weight_type == 'exp':
+			weight_index = N - 1 - torch.arange(N)
+			weight = self.weight_constant ** (-torch.log2(weight_index + 0.5))
+		elif self.weight_type == 'linear':
+			weight = self.weight_constant * (torch.arange(N) + 1) / N
+		else: # constant
+			weight = self.weight_constant * torch.ones(N)
+
 		data[label[:-1]] += weight[:-1]
 
 		d = {}
 		d['data'] = data
 		d['label'] = label
+		d['weight'] = weight
 
 		padding_len = self.max_len - len(seq)
 
@@ -124,6 +138,8 @@ class VAEEvalDataset(data_utils.Dataset):
 		self.output_timestamps = args.dataloader_output_timestamp
 		self.output_days = args.dataloader_output_days
 		self.output_user = args.dataloader_output_user
+		self.weight_type = args.weight_type
+		self.weight_constant = args.weight_constant
 
 	def __len__(self):
 		return len(self.positions)
@@ -145,8 +161,19 @@ class VAEEvalDataset(data_utils.Dataset):
 		label[-len(seq):] = torch.LongTensor(seq)
 
 		data = torch.zeros(self.num_items + 1)
-		weight_index = label.size()[0] - 1 - torch.arange(label.size()[0])
-		weight = 2.0 ** (-torch.floor(torch.log2(weight_index + 0.5)))
+		N = label.size()[0]
+
+		if self.weight_type == 'exp_stair':
+			weight_index = N - 1 - torch.arange(N)
+			weight = self.weight_constant ** (-torch.floor(torch.log2(weight_index + 0.5)))
+		elif self.weight_type == 'exp':
+			weight_index = N - 1 - torch.arange(N)
+			weight = self.weight_constant ** (-torch.log2(weight_index + 0.5))
+		elif self.weight_type == 'linear':
+			weight = self.weight_constant * (torch.arange(N) + 1) / N
+		else: # constant
+			weight = self.weight_constant * torch.ones(N)
+
 		data[label[:-1]] += weight[:-1]
 
 		d = {}
@@ -154,6 +181,7 @@ class VAEEvalDataset(data_utils.Dataset):
 		d['candidates'] = torch.LongTensor(candidates)
 		d['c_label'] = torch.LongTensor(c_labels)
 		d['label'] = label
+		d['weight'] = weight
 
 		padding_len = self.max_len - len(seq)
 

@@ -37,9 +37,8 @@ class VAETrainer(AbstractTrainer):
 		d = self.model(batch)
 
 		recon_x = d['logits']
-		weight_index = self.recover_len - 1 - torch.arange(self.recover_len).to(self.device)
-		weight = (2.0 ** (-torch.floor(torch.log2(weight_index + 0.5))))
-		recon_sum = torch.sum(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]) * weight, dim=-1)
+		weight = batch['weight']
+		recon_sum = torch.sum(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]) * weight[:, -self.recover_len:], dim=-1)
 		CE = -torch.mean(recon_sum)
 
 		mu, logvar = d['mu'], d['logvar']
@@ -51,7 +50,7 @@ class VAETrainer(AbstractTrainer):
 		data, labels = batch['data'], batch['c_label']
 		candidates = batch['candidates']
 		logits = self.model(batch)['logits']
-		logits[data > 0] = -float("inf")
+		logits[data != 0] = -float("inf")
 		logits[:, 0] = -float("inf")
 		scores = logits.gather(1, candidates)
 

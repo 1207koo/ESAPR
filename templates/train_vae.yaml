@@ -28,8 +28,8 @@ train_negative_sampling_seed: 0
 test_negative_sampler_code: popular
 test_negative_sample_size: 100
 test_negative_sampling_seed: 98765
-weight_type: exp
-weight_constant: 2.0
+weight_type: constant
+weight_constant: 1.0
 trainer_code: vae
 device: cuda
 use_parallel: true

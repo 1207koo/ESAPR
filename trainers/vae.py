@@ -60,6 +60,7 @@ class VAETrainer(AbstractTrainer):
 	def train(self):
 		epoch = self.epoch_start
 		best_epoch = self.best_epoch
+		in_best_epoch = self.best_epoch
 		accum_iter = self.accum_iter_start
 		# self.validate(epoch-1, accum_iter, self.val_loader)
 		best_metric = self.best_metric_at_best_epoch
@@ -76,15 +77,15 @@ class VAETrainer(AbstractTrainer):
 			if metric > best_metric:
 				best_metric = metric
 				best_epoch = epoch
+				in_best_epoch = epoch
 			elif (self.saturation_wait_epochs is not None) and\
-					(epoch - best_epoch >= self.saturation_wait_epochs):
+					(epoch - in_best_epoch >= self.saturation_wait_epochs):
 				# stop training if val perf doesn't improve for saturation_wait_epochs
 				if self.recover_len > 1 and self.train_transfer:
 					recover_len_before = self.recover_len
 					self.recover_len //= 2
 					print('recover_len decreased:', recover_len_before, '->', self.recover_len)
-					best_epoch = self.best_epoch
-					best_metric = self.best_metric_at_best_epoch
+					in_best_epoch = epoch
 					if self.best_model_transfer:
 						print('Loading Best Model...')
 						best_model_logger = self.val_loggers[-1]
@@ -95,7 +96,7 @@ class VAETrainer(AbstractTrainer):
 						else:
 							self.model.load(weight_path)
 						print('Validating Model...')
-						validate(epoch, accum_iter, mode='val', doLog=False, **kwargs)
+						self.validate(epoch, accum_iter, mode='val', doLog=False)
 				else:
 					stop_training = True 
 

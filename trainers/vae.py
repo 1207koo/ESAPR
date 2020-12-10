@@ -82,10 +82,11 @@ class VAETrainer(AbstractTrainer):
 				if self.recover_len > 1 and self.train_transfer:
 					recover_len_before = self.recover_len
 					self.recover_len //= 2
-					print('recover_len decreased', recover_len_before, '->', self.recover_len)
+					print('recover_len decreased:', recover_len_before, '->', self.recover_len)
 					best_epoch = self.best_epoch
 					best_metric = self.best_metric_at_best_epoch
 					if self.best_model_transfer:
+						print('Loading Best Model...')
 						best_model_logger = self.val_loggers[-1]
 						assert isinstance(best_model_logger, BestModelLogger)
 						weight_path = best_model_logger.filepath()

@@ -39,7 +39,7 @@ lr: 0.005
 weight_decay: 0.00001
 momentum: null
 decay_step: 16
-gamma: 0.9
+gamma: 0.8
 clip_grad_norm: 5.0
 num_epochs: -1
 log_period_as_iter: 12800

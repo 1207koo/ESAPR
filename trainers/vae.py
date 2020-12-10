@@ -94,6 +94,8 @@ class VAETrainer(AbstractTrainer):
 							self.model.module.load(weight_path)
 						else:
 							self.model.load(weight_path)
+						print('Validating Model...')
+						validate(epoch, accum_iter, mode='val', doLog=False, **kwargs)
 				else:
 					stop_training = True 
 

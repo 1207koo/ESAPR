@@ -18,7 +18,7 @@ dataloader_random_seed: 0.0
 train_batch_size: 512
 val_batch_size: 512
 test_batch_size: 512
-train_window: 64
+train_window: 4
 dataloader_output_timestamp: false
 dataloader_output_days: false
 dataloader_output_user: false

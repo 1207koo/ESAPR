@@ -12,7 +12,10 @@ class VAEModel(BaseModel):
 		self.output_info = args.output_info
 		self.max_len = args.max_len
 		self.num_items = args.num_items
-		self.encoder_hidden_layer = args.encoder_hidden_layer
+		if args.encoder_hidden_layer is None:
+			self.encoder_hidden_layer = []
+		else:
+			self.encoder_hidden_layer = args.encoder_hidden_layer
 		self.encode_len = args.encode_len
 
 		self.encoder_shape = [self.num_items + 1] + self.encoder_hidden_layer + [2 * self.encode_len]

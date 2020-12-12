@@ -58,9 +58,7 @@ train_transfer: true
 best_model_transfer: true
 model_code: vae
 dropout: 0.5
-encoder_hidden_layer:
-- 1024
-- 512
+encoder_hidden_layer: 
 max_len: 128
 encode_len: 128
 model_init_seed: 0

@@ -22,6 +22,7 @@ class VAETrainer(AbstractTrainer):
 		self.recover_len = self.max_len
 		self.train_transfer = args.train_transfer
 		self.best_model_transfer = args.best_model_transfer
+		self.decrease_dropout = args.decrease_dropout
 
 	@classmethod
 	def code(cls):

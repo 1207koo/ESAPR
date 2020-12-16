@@ -67,6 +67,8 @@ class VAETrainer(AbstractTrainer):
 		best_metric = self.best_metric_at_best_epoch
 		stop_training = False
 		for epoch in range(self.epoch_start, self.num_epochs):
+			print(self.model.__dict__)
+			self.model.module.drop = nn.Dropout(self.model.module.dropout * self.recover_len / self.max_len)
 			if self.pilot:
 				print('epoch', epoch)
 			fix_random_seed_as(epoch)  # fix random seed at every epoch to make it perfectly resumable

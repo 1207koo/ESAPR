@@ -21,6 +21,7 @@ class VAETrainer(AbstractTrainer):
 		self.update_count = 0
 		self.recover_len = self.max_len
 		self.train_transfer = args.train_transfer
+		self.scaled_loss = args.scaled_loss
 		self.best_model_transfer = args.best_model_transfer
 		self.decrease_dropout = args.decrease_dropout
 
@@ -40,6 +41,8 @@ class VAETrainer(AbstractTrainer):
 		recon_x = d['logits']
 		weight = batch['weight']
 		recon_sum = torch.sum(F.log_softmax(recon_x, 1).gather(1, batch['label'][:, -self.recover_len:]) * weight[:, -self.recover_len:], dim=-1)
+		if self.scaled_loss:
+			recon_sum = recon_sum * torch.sum(weight, dim=-1) / torch.sum(weight[:, -self.recover_len:], dim=-1)
 		CE = -torch.mean(recon_sum)
 
 		mu, logvar = d['mu'], d['logvar']
@@ -67,9 +70,6 @@ class VAETrainer(AbstractTrainer):
 		best_metric = self.best_metric_at_best_epoch
 		stop_training = False
 		for epoch in range(self.epoch_start, self.num_epochs):
-			print(self.model.__dict__)
-			self.model.module.drop = nn.Dropout(self.model.module.dropout * self.recover_len / self.max_len)
-			self.recover_len //= 2
 			if self.pilot:
 				print('epoch', epoch)
 			fix_random_seed_as(epoch)  # fix random seed at every epoch to make it perfectly resumable
@@ -90,7 +90,7 @@ class VAETrainer(AbstractTrainer):
 					self.recover_len //= 2
 					print('recover_len decreased:', recover_len_before, '->', self.recover_len)
 					if self.decrease_dropout:
-						self.model.drop = nn.Dropout(self.model.dropout * self.recover_len / self.max_len)
+						self.model.module.drop = nn.Dropout(self.model.module.dropout * self.recover_len / self.max_len)
 					in_best_epoch = epoch
 					if self.best_model_transfer:
 						print('Loading Best Model...')

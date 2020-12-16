@@ -52,9 +52,10 @@ metric_ks:
 - 100
 best_metric: NDCG@10
 saturation_wait_epochs: 32
-total_anneal_steps: 20000
-anneal_cap: 0.4
+total_anneal_steps: 200000
+anneal_cap: 0.2
 train_transfer: true
+decrease_dropout: true
 best_model_transfer: true
 model_code: vae
 dropout: 0.5

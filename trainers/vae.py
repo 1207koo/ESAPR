@@ -19,7 +19,7 @@ class VAETrainer(AbstractTrainer):
 		self.total_anneal_steps = args.total_anneal_steps
 		self.anneal_cap = args.anneal_cap
 		self.update_count = 0
-		self.recover_len = args.max_len
+		self.recover_len = self.max_len
 		self.train_transfer = args.train_transfer
 		self.best_model_transfer = args.best_model_transfer
 
@@ -85,6 +85,8 @@ class VAETrainer(AbstractTrainer):
 					recover_len_before = self.recover_len
 					self.recover_len //= 2
 					print('recover_len decreased:', recover_len_before, '->', self.recover_len)
+					if self.decrease_dropout:
+						self.model.drop = nn.Dropout(self.model.dropout * self.recover_len / self.max_len)
 					in_best_epoch = epoch
 					if self.best_model_transfer:
 						print('Loading Best Model...')

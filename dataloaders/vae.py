@@ -20,7 +20,7 @@ class VAEDataloader(AbstractDataloader):
 
 	def _get_train_dataset(self):
 		train_ranges = self.train_targets
-		dataset = VAETrainDataset(self.args, self.dataset, train_ranges)
+		dataset = VAETrainDataset(self.args, self.dataset, self.rng, train_ranges)
 		return dataset
 
 	def _get_eval_dataset(self, mode):
@@ -30,7 +30,7 @@ class VAEDataloader(AbstractDataloader):
 
 
 class VAETrainDataset(data_utils.Dataset):
-	def __init__(self, args, dataset, train_ranges):
+	def __init__(self, args, dataset, rng, train_ranges):
 		self.args = args
 		self.user2dict = dataset['user2dict']
 		self.users = sorted(self.user2dict.keys())
@@ -38,6 +38,7 @@ class VAETrainDataset(data_utils.Dataset):
 		self.max_len = args.max_len
 		self.num_users = args.num_users
 		self.num_items = args.num_items
+		self.rng = rng
 		self.train_ranges = train_ranges
 		self.weight_type = args.weight_type
 		self.weight_constant = args.weight_constant

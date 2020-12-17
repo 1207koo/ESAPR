@@ -22,9 +22,6 @@ train_window: 4
 dataloader_output_timestamp: false
 dataloader_output_days: false
 dataloader_output_user: false
-train_negative_sampler_code: random
-train_negative_sample_size: 0
-train_negative_sampling_seed: 0
 test_negative_sampler_code: popular
 test_negative_sample_size: 100
 test_negative_sampling_seed: 98765

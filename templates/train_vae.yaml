@@ -51,9 +51,9 @@ metric_ks:
 - 50
 - 100
 best_metric: NDCG@10
-saturation_wait_epochs: 32
-total_anneal_steps: 200000
-anneal_cap: 0.2
+saturation_wait_epochs: 16
+total_anneal_steps: 65536
+anneal_cap: 0.4
 train_transfer: true
 scaled_loss: true
 decrease_dropout: false

@@ -101,7 +101,7 @@ class VAETrainDataset(data_utils.Dataset):
 		else: # constant
 			weight = self.weight_constant * torch.ones(N)
 
-		prob = torch.rand(aug.size())
+		prob = torch.rand(label.size())
 		data[label[:-1]] += weight[:-1]
 		data[label[prob < self.aug_prob / 2.0]] *= 0.5
 		data[label[prob >= 1.0 - self.aug_prob / 2.0]] *= 2.0

@@ -20,7 +20,7 @@ class VAEDataloader(AbstractDataloader):
 
 	def _get_train_dataset(self):
 		train_ranges = self.train_targets
-		dataset = VAETrainDataset(self.args, self.dataset, self.rng, train_ranges)
+		dataset = VAETrainDataset(self.args, self.dataset, train_ranges)
 		return dataset
 
 	def _get_eval_dataset(self, mode):
@@ -30,7 +30,7 @@ class VAEDataloader(AbstractDataloader):
 
 
 class VAETrainDataset(data_utils.Dataset):
-	def __init__(self, args, dataset, rng, train_ranges):
+	def __init__(self, args, dataset, train_ranges):
 		self.args = args
 		self.user2dict = dataset['user2dict']
 		self.users = sorted(self.user2dict.keys())
@@ -38,22 +38,16 @@ class VAETrainDataset(data_utils.Dataset):
 		self.max_len = args.max_len
 		self.num_users = args.num_users
 		self.num_items = args.num_items
-		self.rng = rng
 		self.train_ranges = train_ranges
 		self.weight_type = args.weight_type
 		self.weight_constant = args.weight_constant
+		self.aug_prob = args.aug_prob
 
 		self.index2user_and_offsets = self.populate_indices()
 
 		self.output_timestamps = args.dataloader_output_timestamp
 		self.output_days = args.dataloader_output_days
 		self.output_user = args.dataloader_output_user
-
-	def get_rng_state(self):
-		return self.rng.getstate()
-
-	def set_rng_state(self, state):
-		return self.rng.setstate(state)
 
 	def populate_indices(self):
 		index2user_and_offsets = {}
@@ -101,7 +95,11 @@ class VAETrainDataset(data_utils.Dataset):
 		else: # constant
 			weight = self.weight_constant * torch.ones(N)
 
-		data[label[:-1]] += weight[:-1]
+		aug = torch.ones(N - 1)
+		prob = torch.rand(aug.size())
+		aug[prob < self.aug_prob / 2.0] *= 0.5
+		aug[prob >= 1.0 - self.aug_prob / 2.0] *= 2.0
+		data[label[:-1]] += weight[:-1] * aug
 
 		d = {}
 		d['data'] = data

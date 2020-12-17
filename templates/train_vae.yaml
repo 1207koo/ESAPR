@@ -30,6 +30,7 @@ test_negative_sample_size: 100
 test_negative_sampling_seed: 98765
 weight_type: exp_stair
 weight_constant: 2.0
+aug_prob: 0.2
 trainer_code: vae
 device: cuda
 use_parallel: true

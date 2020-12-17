@@ -78,6 +78,7 @@ class TrainingParser:
 		# VAE
 		parser.add_argument('--weight_type', type=str, help='Type of weight for items. List: exp_stair, exp, linear, constant')
 		parser.add_argument('--weight_constant', type=float, help='Constant for weight function. Positive float value required')
+		parser.add_argument('--aug_prob', type=float, help='Probability of augmentation on dataset')
 
 		args = parser.parse_known_args(self.sys_argv)[0]
 		return vars(args)

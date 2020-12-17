@@ -49,6 +49,12 @@ class VAETrainDataset(data_utils.Dataset):
 		self.output_days = args.dataloader_output_days
 		self.output_user = args.dataloader_output_user
 
+	def get_rng_state(self):
+		return self.rng.getstate()
+
+	def set_rng_state(self, state):
+		return self.rng.setstate(state)
+
 	def populate_indices(self):
 		index2user_and_offsets = {}
 		i = 0
@@ -95,11 +101,10 @@ class VAETrainDataset(data_utils.Dataset):
 		else: # constant
 			weight = self.weight_constant * torch.ones(N)
 
-		aug = torch.ones(N - 1)
 		prob = torch.rand(aug.size())
-		aug[prob < self.aug_prob / 2.0] *= 0.5
-		aug[prob >= 1.0 - self.aug_prob / 2.0] *= 2.0
-		data[label[:-1]] += weight[:-1] * aug
+		data[label[:-1]] += weight[:-1]
+		data[label[prob < self.aug_prob / 2.0]] *= 0.5
+		data[label[prob >= 1.0 - self.aug_prob / 2.0]] *= 2.0
 
 		d = {}
 		d['data'] = data

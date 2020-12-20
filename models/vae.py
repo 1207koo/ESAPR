@@ -23,7 +23,7 @@ class VAEModel(BaseModel):
 		self.dropout = args.dropout
 
 		self.normalize_type = args.normalize_type
-		if self.normalize_type == 'f'
+		if self.normalize_type == 'f':
 			self.normalizer = F.normalize
 		else: # batch
 			self.normalizer = nn.BatchNorm1d(self.num_items + 1)

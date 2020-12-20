@@ -162,6 +162,7 @@ class TrainingParser:
 		parser.add_argument('--relative_kernel_types', type=str, help="Relative kernel types separated by'-'(e.g. e-l). s=Sin, e=Exp, l=Log")
 
 		# VAE
+		parser.add_argument('--normalize_type', type=str, help='Type of normalizing layer. f or batch. (functional or batch normalization)')
 		parser.add_argument('--encode_len', type=int, help='Length of the result of encoder')
 		parser.add_argument('--encoder_hidden_layer', nargs='+', type=int, help='List of hidden layer in encoder')
 

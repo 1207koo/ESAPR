@@ -22,7 +22,11 @@ class VAEModel(BaseModel):
 		self.decoder_shape = [self.encode_len] + self.encoder_hidden_layer[::-1] + [self.num_items + 1]
 		self.dropout = args.dropout
 
-		self.normalizer = nn.BatchNorm1d(self.num_items + 1)
+		self.normalize_type = args.normalize_type
+		if self.normalize_type == 'f'
+			self.normalizer = F.normalize
+		else: # batch
+			self.normalizer = nn.BatchNorm1d(self.num_items + 1)
 		self.drop = nn.Dropout(self.dropout)
 		self.activation = nn.ReLU()
 		self.encoder = nn.ModuleList(nn.Linear(c_in, c_out) for c_in, c_out in zip(self.encoder_shape[:-1], self.encoder_shape[1:]))

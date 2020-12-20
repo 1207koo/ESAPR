@@ -60,6 +60,7 @@ scaled_loss: true
 decrease_dropout: false
 best_model_transfer: true
 model_code: vae
+normalize_type: f
 dropout: 0.5
 encoder_hidden_layer:
 - 512

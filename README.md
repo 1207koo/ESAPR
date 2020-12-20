@@ -43,7 +43,7 @@ It is also possible to override some options with command line arguments. For ex
 python main.py --templates train_vae --dataset_code ml-20m --train_window 128 --saturation_wait_epochs 16 --weight_type constant --weight_constant 1.0 --train_transfer false
 ```
 
-will use **MovieLens 20M** dataset with original **VAE** model by Netflix(little difference in hidden dimension) and train faster.
+will use **MovieLens 20M** dataset with original **VAE** model by Netflix(little difference for better result) and train faster.
 
 These extra features are based on [MEANTIME repository](https://github.com/SungMinCho/MEANTIME).
 

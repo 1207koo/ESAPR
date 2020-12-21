@@ -64,6 +64,8 @@ VAE_tr: VAE_net + transfer training
 
 VAE_tw: VAE_net + transfer training + weighted input and CE
 
+VAE_tw is my best model, and it is the default model of this code
+
 
 ## References
 

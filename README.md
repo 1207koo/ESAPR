@@ -58,6 +58,12 @@ These extra features are based on [MEANTIME repository](https://github.com/SungM
 
 Italic for the overall best metrics, and bold for the best metrics of VAE models.
 
+VAE_net: Netflix's Multi-VAE_PR
+
+VAE_tr: VAE_net + transfer training
+
+VAE_tw: VAE_net + transfer training + weighted input and CE
+
 
 ## References
 

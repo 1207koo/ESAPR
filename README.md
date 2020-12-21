@@ -10,7 +10,10 @@ This project is based on [Multi-VAE_PR by Netflix](https://arxiv.org/pdf/1802.05
 
 ### On Google Colab
 
-You can just run ESAPR.ipynb on Google Colab, which runs on **MovieLens 1M** and **MovieLens 20M** dataset.
+You can just run ESAPR.ipynb on Google Colab, which runs on **MovieLens 1M** dataset.
+
+The result files will be saved in `<Google-drive>/임베/project/files/f_ml_1m`
+
 
 ### Local
 

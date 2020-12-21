@@ -1,5 +1,7 @@
 # ESAPR: Sequential recommendation system based on VAE
 
+![model_image](https://github.com/1207koo/ESAPR/blob/master/images/model_image.jpg)
+
 ## Overview
 
 Sequential recommender system based on VAE
@@ -49,6 +51,12 @@ python main.py --templates train_vae --dataset_code ml-20m --train_window 128 --
 will use **MovieLens 20M** dataset with original **VAE** model by Netflix(little difference for better result) and train faster.
 
 These extra features are based on [MEANTIME repository](https://github.com/SungMinCho/MEANTIME).
+
+## Results
+
+![result_image](https://github.com/1207koo/ESAPR/blob/master/images/result_image.png)
+
+Italic for the overall best metrics, and bold for the best metrics of VAE models.
 
 
 ## References
